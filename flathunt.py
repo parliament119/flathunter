@@ -31,8 +31,6 @@ def launch_flat_hunt(config, heartbeat: Heartbeat):
 
     wait_during_period(time_from, time_till)
 
-    logger.info("launch_hunt_flats")
-
     hunter = Hunter(config, id_watch)
     hunter.hunt_flats()
     counter = 0

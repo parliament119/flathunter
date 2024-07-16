@@ -11,10 +11,8 @@ class InBerlinWohnen(WebdriverCrawler):
     """Implementation of Crawler interface for InBerlinWohnen"""
 
     URL_PATTERN = re.compile(r'inberlinwohnen')
-    logger.info("INITTER")
 
     def get_expose_details(self, expose):
-        logger.info("get_expose_details")
         soup = self.get_page(expose['url'], self.get_driver())
         if 'from' not in expose:
             expose['from'] = datetime.datetime.now().strftime('%02d.%02m.%Y')
@@ -22,7 +20,6 @@ class InBerlinWohnen(WebdriverCrawler):
 
     # pylint: disable=too-many-locals
     def extract_data(self, soup):
-        logger.info("extract_data")
         """Extracts all exposes from a provided Soup object"""
         entries = []
         soup = soup.find(id="_tb_relevant_results")
@@ -100,22 +97,3 @@ class InBerlinWohnen(WebdriverCrawler):
         logger.debug('Number of entries found: %d', len(entries))
 
         return entries
-
-    # def get_results(self, search_url, max_pages=None):
-    #     logger.info("get_results")
-    #     return super().get_results(search_url, max_pages)
-
-    # def load_address(self, url):
-    #     """Extract address from expose itself"""
-    #     logger.info("load_address")
-    #     expose_soup = self.get_page(url)
-    #     street_raw = ""
-    #     street_el = expose_soup.find(id="street-address")
-    #     if isinstance(street_el, Tag):
-    #         street_raw = street_el.text
-    #     address_raw = ""
-    #     address_el = expose_soup.find(id="viewad-locality")
-    #     if isinstance(address_el, Tag):
-    #         address_raw = address_el.text
-
-    #     return address_raw.strip().replace("\n", "") + " " + street_raw.strip()

@@ -23,7 +23,6 @@ class Hunter:
     def crawl_for_exposes(self, max_pages=None):
         """Trigger a new crawl of the configured URLs"""
         def try_crawl(searcher, url, max_pages):
-            logger.info("try_crawl %s", searcher)
             try:
                 return searcher.crawl(url, max_pages)
             except CaptchaUnsolvableError:

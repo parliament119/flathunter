@@ -107,7 +107,6 @@ Preis: {price}
 {url}"""
 
     def __init__(self, config=None):
-        logger.info("config init")
         if config is None:
             config = {}
         self.config = config
@@ -125,15 +124,15 @@ Preis: {price}
     def init_searchers(self):
         """Initialize search plugins"""
         self.__searchers__ = [
-            # Immobilienscout(self),
-            # WgGesucht(self),
+            Immobilienscout(self),
+            WgGesucht(self),
             Kleinanzeigen(self),
-            # Immowelt(self),
-            # Subito(self),
-            # Immobiliare(self),
-            # Idealista(self),
-            # MeineStadt(self),
-            # VrmImmo(self),
+            Immowelt(self),
+            Subito(self),
+            Immobiliare(self),
+            Idealista(self),
+            MeineStadt(self),
+            VrmImmo(self),
             InBerlinWohnen(self)
         ]
 
