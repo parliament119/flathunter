@@ -36,12 +36,16 @@ class CrawlExposeDetails(Processor):
     """Processor to extract additional apartment details by parsing page at expose URL"""
 
     def __init__(self, config):
+        logger.info("CrawlExposeDetails INIT")
         self.config = config
 
     def process_expose(self, expose):
         """Fetches the page at exposes['url'] and extracts additional details from it"""
+        logger.info("process_expose")
         for searcher in self.config.searchers():
+            logger.info("searcher - %s", searcher)
             if re.search(searcher.URL_PATTERN, expose['url']):
+                logger.info("searcher - %s - in re.search", searcher)
                 expose = searcher.get_expose_details(expose)
         return expose
 

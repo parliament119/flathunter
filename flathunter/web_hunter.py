@@ -28,7 +28,9 @@ class WebHunter(Hunter):
                                         .build()
 
         new_exposes = []
+        logger.info("hunt_flats")
         for expose in processor_chain.process(self.crawl_for_exposes(max_pages=max_pages)):
+            logger.info(expose)
             new_exposes.append(expose)
 
         for (user_id, settings) in self.id_watch.get_user_settings():

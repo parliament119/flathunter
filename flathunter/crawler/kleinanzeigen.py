@@ -10,6 +10,8 @@ from flathunter.logging import logger
 class Kleinanzeigen(WebdriverCrawler):
     """Implementation of Crawler interface for Kleinanzeigen"""
 
+    logger.info("INITTER")
+
     URL_PATTERN = re.compile(r'https://www\.kleinanzeigen\.de')
     MONTHS = {
         "Januar": "01",
@@ -27,6 +29,7 @@ class Kleinanzeigen(WebdriverCrawler):
     }
 
     def get_expose_details(self, expose):
+        logger.error("get_expose_details")
         soup = self.get_page(expose['url'], self.get_driver())
         for detail in soup.find_all('li', {"class": "addetailslist--detail"}):
             if re.match(r'Verfügbar ab', detail.text):
@@ -39,9 +42,11 @@ class Kleinanzeigen(WebdriverCrawler):
 
     # pylint: disable=too-many-locals
     def extract_data(self, soup):
+        logger.error("extract_data")
         """Extracts all exposes from a provided Soup object"""
         entries = []
         soup = soup.find(id="srchrslt-adtable")
+
 
         try:
             title_elements = soup.find_all(lambda e: e.has_attr('class')
@@ -50,6 +55,15 @@ class Kleinanzeigen(WebdriverCrawler):
             return entries
 
         expose_ids = soup.find_all("article", class_="aditem")
+
+        count = 0
+        for title in title_elements:
+            logger.info(title)
+            logger.info("")
+            logger.info("")
+            count += 1
+            if(count > 2):
+                break
 
         for idx, title_el in enumerate(title_elements):
             try:
@@ -100,6 +114,7 @@ class Kleinanzeigen(WebdriverCrawler):
 
     def load_address(self, url):
         """Extract address from expose itself"""
+        logger.error("load_address")
         expose_soup = self.get_page(url)
         street_raw = ""
         street_el = expose_soup.find(id="street-address")

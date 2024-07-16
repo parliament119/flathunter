@@ -64,6 +64,8 @@ class Crawler(ABC):
             afterlogin_string: Optional[str] = None) -> BeautifulSoup:
         """Creates a Soup object from the HTML at the provided URL"""
 
+        logger.info("get_soup_from_url")
+
         if self.config.use_proxy():
             return self.get_soup_with_proxy(url)
         if driver is not None:
@@ -145,8 +147,11 @@ class Crawler(ABC):
         return entries
 
     def crawl(self, url, max_pages=None):
+        logger.info("abstract crawl")
         """Load as many exposes as possible from the provided URL"""
+        logger.info(re.search(self.URL_PATTERN, url))
         if re.search(self.URL_PATTERN, url):
+            logger.info("pattern search")
             try:
                 return self.get_results(url, max_pages)
             except requests.exceptions.ConnectionError:
