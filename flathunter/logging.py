@@ -4,6 +4,15 @@ import os
 from pprint import pformat
 
 
+LOGGING_FILE = os.getenv('HOME') + "/FLATHUNT_LOG.txt"
+
+FILE_FORMAT = '[' + '%(asctime)s' \
+              '|' + '%(filename)-24s' \
+              '|' + '%(levelname)-8s'  \
+              ']: %(message)s'
+
+FILE_DATE_FMT = '%Y/%m/%d %H:%M:%S'
+
 class LoggerHandler(logging.StreamHandler):
     """Formats logs and alters WebDriverManager's logs properties"""
 
@@ -51,6 +60,11 @@ logger = logging.getLogger('flathunt')
 
 # Setup "webdriver-manager" module's logger
 wdm_logger = setup_wdm_logger(logger_handler)
+
+file_handler = logging.FileHandler(LOGGING_FILE)
+file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(logging.Formatter(fmt=FILE_FORMAT, datefmt=FILE_DATE_FMT))
+logger.addHandler(file_handler)
 
 # Setup "requests" module's logger
 logging.getLogger("requests").setLevel(logging.WARNING)
